@@ -12,6 +12,14 @@ import iofiles.Action;
 import java.util.ArrayList;
 
 public class VisitorMovies implements Visitor{
+    private Movie seeDetails(Action action, Database db) {
+        for (Movie movie : db.getCurrMovies()) {
+            if (movie.getName().equals(action.getMovie())) {
+                return movie;
+            }
+        }
+        return null;
+    }
     private ArrayList<Movie> searchMovie(String search, Database db) {
         ArrayList<Movie> list = new ArrayList<>();
         for (Movie movie : db.getMovies()) {
@@ -44,6 +52,15 @@ public class VisitorMovies implements Visitor{
                 if (pageName.equals("logout")) {
                     currentPage.resetHomeNAUTH();
                     db.setCurrUser(null);
+                    break;
+                }
+                if (pageName.equals("see details")) {
+                    if (seeDetails(action, db) == null) {
+                        ErrorMessage err = ErrorFactory.standardErr();
+                        output.addPOJO(err);
+                        currentPage.resetHomeAUTH();
+                        break;
+                    }
                     break;
                 }
                 //TODO see details implementation

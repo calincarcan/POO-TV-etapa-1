@@ -3,12 +3,12 @@ package iofiles;
 import java.util.ArrayList;
 
 public class Movieio {
-    String name;
-    int year;
-    int duration;
-    ArrayList<String> genres;
-    ArrayList<String> actors;
-    ArrayList<String> countriesBanned;
+    private String name;
+    private int year;
+    private int duration;
+    private ArrayList<String> genres;
+    private ArrayList<String> actors;
+    private ArrayList<String> countriesBanned;
 
     public String getName() {
         return name;
