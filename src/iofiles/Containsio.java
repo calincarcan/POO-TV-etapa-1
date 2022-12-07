@@ -2,7 +2,7 @@ package iofiles;
 
 import java.util.ArrayList;
 
-public class Contains {
+public class Containsio {
     ArrayList<String> actors;
     ArrayList<String> genre;
 

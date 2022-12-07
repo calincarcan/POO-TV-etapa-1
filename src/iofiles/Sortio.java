@@ -1,6 +1,6 @@
 package iofiles;
 
-public class Sort {
+public class Sortio {
     String rating;
     String duration;
 

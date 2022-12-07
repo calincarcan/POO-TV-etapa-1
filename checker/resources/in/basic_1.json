@@ -64,6 +64,7 @@
     },
     {
       "type": "on page",
+      "page": "login",
       "feature": "login",
       "credentials": {
         "name": "Eduard",

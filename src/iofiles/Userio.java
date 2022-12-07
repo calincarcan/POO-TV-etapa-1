@@ -1,6 +1,6 @@
 package iofiles;
 
-public class User {
+public class Userio {
     private Credentials credentials;
 
     public Credentials getCredentials() {
