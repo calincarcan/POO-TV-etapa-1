@@ -1,6 +1,5 @@
 package Data;
 
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import iofiles.Action;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,10 +12,12 @@ public class Database {
     ArrayList<Movie> movies;
     ArrayList<Action> actions;
     User currUser;
+    ArrayList<Movie> currMovies;
     public Database() {
         users = new ArrayList<>();
         movies = new ArrayList<>();
         actions = new ArrayList<>();
+        currMovies = new ArrayList<>();
         currUser = null;
     }
 }

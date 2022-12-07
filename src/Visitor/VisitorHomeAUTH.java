@@ -3,10 +3,9 @@ package Visitor;
 import Data.CurrentPage;
 import Data.Database;
 import Data.ErrorMessage;
+import Factory.ErrorFactory;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import iofiles.Action;
-
-import java.util.ArrayList;
 
 public class VisitorHomeAUTH implements Visitor{
     public void visit(CurrentPage currentPage, Action action, Database db, ArrayNode output) {
@@ -16,10 +15,7 @@ public class VisitorHomeAUTH implements Visitor{
                 if (!action.getPage().equals("movies")
                         && !action.getPage().equals("logout")
                         && !action.getPage().equals("upgrades")) {
-                    ErrorMessage err = new ErrorMessage();
-                    err.setError("Error");
-                    err.setCurrentMoviesList(new ArrayList<>());
-                    err.setCurrentUser(null);
+                    ErrorMessage err = ErrorFactory.standardErr();
                     output.addPOJO(err);
                     break;
                 }
@@ -28,12 +24,17 @@ public class VisitorHomeAUTH implements Visitor{
                     currentPage.resetHomeNAUTH();
                     break;
                 }
+                if (action.getPage().equals("movies")) {
+                    currentPage.setPageName("movies");
+                    currentPage.setCurrentVisitor("movies");
+                    ErrorMessage err = ErrorFactory.createErr(null,
+                            db.getCurrMovies(), db.getCurrUser());
+                    output.addPOJO(err);
+                    break;
+                }
             }
             case "on page" -> {
-                ErrorMessage err = new ErrorMessage();
-                err.setError("Error");
-                err.setCurrentMoviesList(new ArrayList<>());
-                err.setCurrentUser(null);
+                ErrorMessage err = ErrorFactory.standardErr();
                 output.addPOJO(err);
                 break;
             }

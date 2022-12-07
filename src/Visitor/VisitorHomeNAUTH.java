@@ -4,7 +4,9 @@ import Data.CurrentPage;
 import Data.Database;
 import Data.ErrorMessage;
 import Data.User;
+import Factory.ErrorFactory;
 import Factory.UserFactory;
+import Filters.CountryFilter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import iofiles.Action;
 import java.util.ArrayList;
@@ -13,7 +15,6 @@ public class VisitorHomeNAUTH implements Visitor{
     private User checkLogin(Action action, Database db) {
         String loginName = action.getCredentials().getName();
         String loginPassword = action.getCredentials().getPassword();
-//        db.getActions().stream().filter()
         for (User user : db.getUsers()) {
             if (user.getCredentials().getName().equals(loginName) &&
                 user.getCredentials().getPassword().equals(loginPassword)) {
@@ -29,10 +30,7 @@ public class VisitorHomeNAUTH implements Visitor{
             case "change page" -> {
                 if (!action.getPage().equals("login") &&
                         !action.getPage().equals("register")) {
-                    ErrorMessage err = new ErrorMessage();
-                    err.setError("Error");
-                    err.setCurrentMoviesList(new ArrayList<>());
-                    err.setCurrentUser(null);
+                    ErrorMessage err = ErrorFactory.standardErr();
                     output.addPOJO(err);
                     currentPage.resetHomeNAUTH();
                     break;
@@ -41,10 +39,7 @@ public class VisitorHomeNAUTH implements Visitor{
             }
             case "on page" -> {
                 if (!action.getPage().equals(currentPage.getPageName())) {
-                    ErrorMessage err = new ErrorMessage();
-                    err.setError("Error");
-                    err.setCurrentMoviesList(new ArrayList<>());
-                    err.setCurrentUser(null);
+                    ErrorMessage err = ErrorFactory.standardErr();
                     output.addPOJO(err);
                     currentPage.resetHomeNAUTH();
                     break;
@@ -52,10 +47,7 @@ public class VisitorHomeNAUTH implements Visitor{
                 if (action.getPage().equals("login")) {
                     User foundUser = checkLogin(action, db);
                     if (!action.getFeature().equals("login") || foundUser == null) {
-                        ErrorMessage err = new ErrorMessage();
-                        err.setError("Error");
-                        err.setCurrentMoviesList(new ArrayList<>());
-                        err.setCurrentUser(null);
+                        ErrorMessage err = ErrorFactory.standardErr();
                         output.addPOJO(err);
                         currentPage.resetHomeNAUTH();
                         break;
@@ -63,20 +55,16 @@ public class VisitorHomeNAUTH implements Visitor{
                     currentPage.resetHomeAUTH();
                     db.setCurrUser(foundUser);
 
-                    ErrorMessage err = new ErrorMessage();
                     User errUser = UserFactory.createUser(foundUser);
-                    err.setError(null);
-                    err.setCurrentMoviesList(new ArrayList<>());
-                    err.setCurrentUser(errUser);
+                    db.setCurrMovies(CountryFilter
+                            .moviePerms(foundUser.getCredentials().getCountry(), db));
+                    ErrorMessage err = ErrorFactory.createErr(null, new ArrayList<>(), errUser);
                     output.addPOJO(err);
                     break;
                 }
                 if (action.getPage().equals("register")) {
                     if (!action.getFeature().equals("register")) {
-                        ErrorMessage err = new ErrorMessage();
-                        err.setError("Error");
-                        err.setCurrentMoviesList(new ArrayList<>());
-                        err.setCurrentUser(null);
+                        ErrorMessage err = ErrorFactory.standardErr();
                         output.addPOJO(err);
                         currentPage.resetHomeNAUTH();
                         break;
@@ -85,14 +73,13 @@ public class VisitorHomeNAUTH implements Visitor{
                     User newUser = UserFactory.createUser(action.getCredentials());
                     db.getUsers().add(newUser);
 
+                    db.setCurrMovies(CountryFilter
+                            .moviePerms(newUser.getCredentials().getCountry(), db));
                     currentPage.resetHomeAUTH();
                     db.setCurrUser(newUser);
 
-                    ErrorMessage err = new ErrorMessage();
                     User errUser = UserFactory.createUser(newUser);
-                    err.setError(null);
-                    err.setCurrentMoviesList(new ArrayList<>());
-                    err.setCurrentUser(errUser);
+                    ErrorMessage err = ErrorFactory.createErr(null, new ArrayList<>(), errUser);
                     output.addPOJO(err);
                 }
             }

@@ -1,6 +1,5 @@
 package Data;
 
-import iofiles.Movieio;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,7 +15,7 @@ public class Movie {
     ArrayList<String> actors;
     ArrayList<String> countriesBanned;
     int numLikes;
-    double ratings;
+    int rating;
     int numRatings;
 
     public Movie() {}
