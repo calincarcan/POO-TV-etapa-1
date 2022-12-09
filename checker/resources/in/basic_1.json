@@ -64,7 +64,6 @@
     },
     {
       "type": "on page",
-      "page": "login",
       "feature": "login",
       "credentials": {
         "name": "Eduard",
@@ -77,7 +76,6 @@
     },
     {
       "type": "on page",
-      "page": "register",
       "feature": "register",
       "credentials": {
         "name": "Ramsi",
@@ -93,7 +91,6 @@
     },
     {
       "type": "on page",
-      "page": "login",
       "feature": "login",
       "credentials": {
         "name": "Ramsi",
@@ -110,7 +107,6 @@
     },
     {
       "type": "on page",
-      "page": "login",
       "feature": "login",
       "credentials": {
         "name": "Eduard",
@@ -123,7 +119,6 @@
     },
     {
       "type": "on page",
-      "page": "login",
       "feature": "login",
       "credentials": {
         "name": "Eduard",

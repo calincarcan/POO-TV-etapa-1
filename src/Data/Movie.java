@@ -15,7 +15,7 @@ public class Movie {
     ArrayList<String> actors;
     ArrayList<String> countriesBanned;
     int numLikes;
-    int rating;
+    double rating;
     int numRatings;
 
     public Movie() {}

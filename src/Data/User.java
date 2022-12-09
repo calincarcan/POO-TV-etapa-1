@@ -1,7 +1,6 @@
 package Data;
 
 import iofiles.Credentials;
-import iofiles.Userio;
 import lombok.Getter;
 import lombok.Setter;
 

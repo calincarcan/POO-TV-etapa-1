@@ -14,5 +14,5 @@ public class Action {
     String startsWith;
     String count;
     int rate;
-    Filtersio filters;
+    Filters filters;
 }

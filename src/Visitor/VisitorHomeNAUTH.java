@@ -38,13 +38,7 @@ public class VisitorHomeNAUTH implements Visitor{
                 currentPage.setPageName(action.getPage());
             }
             case "on page" -> {
-                if (!action.getPage().equals(currentPage.getPageName())) {
-                    ErrorMessage err = ErrorFactory.standardErr();
-                    output.addPOJO(err);
-                    currentPage.resetHomeNAUTH();
-                    break;
-                }
-                if (action.getPage().equals("login")) {
+                if (action.getFeature().equals("login")) {
                     User foundUser = checkLogin(action, db);
                     if (!action.getFeature().equals("login") || foundUser == null) {
                         ErrorMessage err = ErrorFactory.standardErr();
@@ -62,7 +56,7 @@ public class VisitorHomeNAUTH implements Visitor{
                     output.addPOJO(err);
                     break;
                 }
-                if (action.getPage().equals("register")) {
+                if (action.getFeature().equals("register")) {
                     if (!action.getFeature().equals("register")) {
                         ErrorMessage err = ErrorFactory.standardErr();
                         output.addPOJO(err);

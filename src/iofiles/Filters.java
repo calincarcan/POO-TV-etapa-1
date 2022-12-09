@@ -1,6 +1,6 @@
 package iofiles;
 
-public class Filtersio {
+public class Filters {
     Sortio sort;
     Containsio contains;
 
