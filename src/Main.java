@@ -1,7 +1,11 @@
 import Data.*;
+import Filters.CountryFilter;
 import Visitor.VisitorHomeNAUTH;
+import Visitor.VisitorSeeDetails;
 import Visitor.VisitorHomeAUTH;
 import Visitor.VisitorMovies;
+import Visitor.VisitorUpgrades;
+
 import Factory.MovieFactory;
 import Factory.UserFactory;
 import Visitor.Visitor;
@@ -17,8 +21,9 @@ import java.io.File;
 import java.io.IOException;
 
 public class Main {
-    static int i = 1;
+    static int i = 7;
     public static void main(String[] args) throws IOException {
+        CountryFilter.aolo = 0;
         String inPath = args[0];
         String outPath = args[1];
         ObjectMapper objectMapper = new ObjectMapper();
@@ -31,6 +36,8 @@ public class Main {
         currentPage.getVisitorColl().put("HomeNAUTH", new VisitorHomeNAUTH());
         currentPage.getVisitorColl().put("HomeAUTH", new VisitorHomeAUTH());
         currentPage.getVisitorColl().put("movies", new VisitorMovies());
+        currentPage.getVisitorColl().put("seeDetails", new VisitorSeeDetails());
+        currentPage.getVisitorColl().put("upgrades", new VisitorUpgrades());
 
         Database database = new Database();
         for (Userio user: inputData.getUsers()) {

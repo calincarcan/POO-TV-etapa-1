@@ -1,5 +1,6 @@
 package Factory;
 
+import Data.Movie;
 import Data.User;
 import iofiles.Credentials;
 import iofiles.Userio;
@@ -9,13 +10,29 @@ import java.util.ArrayList;
 public class UserFactory {
     public static User createUser(User user) {
         User newUser = new User();
-        newUser.setCredentials(user.getCredentials());
+        newUser.setCredentials(CredentialsFactory.createCred(user.getCredentials()));
         newUser.setTokensCount(user.getTokensCount());
         newUser.setNumFreePremiumMovies(user.getNumFreePremiumMovies());
-        newUser.setPurchasedMovies(user.getPurchasedMovies());
-        newUser.setWatchedMovies(user.getWatchedMovies());
-        newUser.setLikedMovies(user.getLikedMovies());
-        newUser.setRatedMovies(user.getRatedMovies());
+        ArrayList<Movie> auxList = new ArrayList<>();
+        for (Movie movie : user.getPurchasedMovies()) {
+            auxList.add(MovieFactory.createMovie(movie));
+        }
+        newUser.setPurchasedMovies(auxList);
+        auxList = new ArrayList<>();
+        for (Movie movie : user.getWatchedMovies()) {
+            auxList.add(MovieFactory.createMovie(movie));
+        }
+        newUser.setWatchedMovies(auxList);
+        auxList = new ArrayList<>();
+        for (Movie movie : user.getLikedMovies()) {
+            auxList.add(MovieFactory.createMovie(movie));
+        }
+        newUser.setLikedMovies(auxList);
+        auxList = new ArrayList<>();
+        for (Movie movie : user.getRatedMovies()) {
+            auxList.add(MovieFactory.createMovie(movie));
+        }
+        newUser.setRatedMovies(auxList);
         return newUser;
     }
     public static User createUser(Userio user) {

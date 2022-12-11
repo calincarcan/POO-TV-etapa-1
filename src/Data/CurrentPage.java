@@ -21,6 +21,18 @@ public class CurrentPage {
         setCurrentVisitor("HomeNAUTH");
         setVisitorColl(new HashMap<>());
     }
+    public void resetUpgrades() {
+        this.setPageName("upgrades");
+        this.setCurrentVisitor("upgrades");
+    }
+    public void resetSeeDetails() {
+        this.setPageName("seeDetails");
+        this.setCurrentVisitor("seeDetails");
+    }
+    public void resetMovies() {
+        this.setPageName("movies");
+        this.setCurrentVisitor("movies");
+    }
     public void resetHomeNAUTH() {
         this.setPageName("HomeNAUTH");
         this.setCurrentVisitor("HomeNAUTH");

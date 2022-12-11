@@ -63,7 +63,6 @@ public class VisitorHomeNAUTH implements Visitor{
                         currentPage.resetHomeNAUTH();
                         break;
                     }
-                    //TODO DE VERIFICAT CA USER UL NU EXISTA DEJA
                     User newUser = UserFactory.createUser(action.getCredentials());
                     db.getUsers().add(newUser);
 

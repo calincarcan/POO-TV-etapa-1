@@ -1,22 +1,11 @@
 package iofiles;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class Filters {
     Sortio sort;
     Containsio contains;
-
-    public Sortio getSort() {
-        return sort;
-    }
-
-    public void setSort(Sortio sort) {
-        this.sort = sort;
-    }
-
-    public Containsio getContains() {
-        return contains;
-    }
-
-    public void setContains(Containsio contains) {
-        this.contains = contains;
-    }
 }

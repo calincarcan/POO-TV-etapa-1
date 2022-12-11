@@ -3,6 +3,8 @@ package Factory;
 import Data.Movie;
 import iofiles.Movieio;
 
+import java.util.ArrayList;
+
 public class MovieFactory {
     public static Movie createMovie(Movie movie) {
         Movie newMovie = new Movie();

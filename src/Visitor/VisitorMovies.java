@@ -1,82 +1,47 @@
 package Visitor;
 
-import Data.CurrentPage;
-import Data.Database;
-import Data.ErrorMessage;
-import Data.Movie;
+import Data.*;
 import Factory.ErrorFactory;
 import Factory.MovieFactory;
-import Filters.Filter;
+import Factory.UserFactory;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import iofiles.Action;
 import iofiles.Filters;
+import Filters.CountryFilter;
 
+import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
-public class VisitorMovies implements Visitor{
+public class VisitorMovies implements Visitor {
     private ArrayList<Movie> filter(Filters filters, ArrayList<Movie> movies) {
-//        ArrayList<Movie> filtered = movies.stream().filter(new Predicate<Movie>() {
-//            @Override
-//            public boolean test(Movie movie) {
-//                return false;
-//            }
-//        })
-        return (ArrayList<Movie>) movies.stream().sorted((o1, o2) -> {
-            if (filters.getSort().getRating().equals("decreasing")) {
-                if (filters.getSort().getDuration().equals("decreasing")) {
-                    if (o1.getRating() - o2.getRating() == 0)
-                        return o2.getDuration() - o1.getDuration();
-                    else {
-                        return (int) (o2.getRating() - o1.getRating());
+        return new ArrayList<>(movies.stream()
+                .sorted((o1, o2) -> {
+                    if (filters.getSort() != null) {
+                        if (filters.getSort().getRating().equals("decreasing")) {
+                            return filterFunc(filters, o1, o2, o2.getRating(), o1.getRating());
+                        } else {
+                            return filterFunc(filters, o1, o2, o1.getRating(), o2.getRating());
+                        }
                     }
-                }
-                else {
-                    if (o1.getRating() - o2.getRating() == 0)
-                        return o1.getDuration() - o2.getDuration();
-                    else {
-                        return (int) (o2.getRating() - o1.getRating());
-                    }
-                }
-            }
+                    return 0;
+                }).toList());
+    }
+
+    private int filterFunc(Filters filters, Movie o1, Movie o2, double rating, double rating2) {
+        if (filters.getSort().getDuration().equals("decreasing")) {
+            if (o1.getRating() - o2.getRating() == 0)
+                return o2.getDuration() - o1.getDuration();
             else {
-                if (filters.getSort().getDuration().equals("decreasing")) {
-                    if (o1.getRating() - o2.getRating() == 0)
-                        return o2.getDuration() - o1.getDuration();
-                    else {
-                        return (int) (o1.getRating() - o2.getRating());
-                    }
-                }
-                else {
-                    if (o1.getRating() - o2.getRating() == 0)
-                        return o1.getDuration() - o2.getDuration();
-                    else {
-                        return (int) (o1.getRating() - o2.getRating());
-                    }
-                }
+                return (int) (rating - rating2);
             }
-        }).toList();
-    }
-    private Movie seeDetails(Action action, Database db) {
-        for (Movie movie : db.getCurrMovies()) {
-            if (movie.getName().equals(action.getMovie())) {
-                return movie;
+        } else {
+            if (o1.getRating() - o2.getRating() == 0)
+                return o1.getDuration() - o2.getDuration();
+            else {
+                return (int) (rating - rating2);
             }
         }
-        return null;
-    }
-    private ArrayList<Movie> searchMovie(String search, Database db) {
-        ArrayList<Movie> list = new ArrayList<>();
-        for (Movie movie : db.getMovies()) {
-            if (!movie.getCountriesBanned()
-                    .contains(db.getCurrUser().getCredentials().getCountry())) {
-                int index = movie.getName().indexOf(search);
-                if (index == 0)
-                    list.add(MovieFactory.createMovie(movie));
-            }
-        }
-        return list;
     }
     @Override
     public void visit(CurrentPage currentPage, Action action, Database db, ArrayNode output) {
@@ -93,41 +58,88 @@ public class VisitorMovies implements Visitor{
                 }
                 if (pageName.equals("home")) {
                     currentPage.resetHomeAUTH();
+                    String country = db.getCurrUser().getCredentials().getCountry();
+                    db.setCurrMovies(CountryFilter.moviePerms(country, db));
                     break;
                 }
                 if (pageName.equals("logout")) {
                     currentPage.resetHomeNAUTH();
                     db.setCurrUser(null);
+                    db.setCurrMovies(new ArrayList<>());
                     break;
                 }
-                if (pageName.equals("see details")) {
-                    if (seeDetails(action, db) == null) {
-                        ErrorMessage err = ErrorFactory.standardErr();
-                        output.addPOJO(err);
-                        currentPage.resetHomeAUTH();
+                Movie details = null;
+                for (Movie movie : db.getCurrMovies()) {
+                    if (movie.getName().equals(action.getMovie())) {
+                        details = movie;
                         break;
                     }
-                    break;
                 }
-                //TODO see details implementation
+                if (details == null) {
+                    ErrorMessage err = ErrorFactory.standardErr();
+                    output.addPOJO(err);
+                    currentPage.resetMovies();
+                }
+                else {
+                    currentPage.resetSeeDetails();
+                    ArrayList<Movie> errMovie = new ArrayList<>();
+                    errMovie.add(MovieFactory.createMovie(details));
+                    User user = UserFactory.createUser(db.getCurrUser());
+                    db.setCurrMovies(new ArrayList<>());
+                    db.getCurrMovies().add(details);
+                    ErrorMessage err = ErrorFactory.createErr(null, errMovie, user);
+                    output.addPOJO(err);
+                }
             }
             case "on page" -> {
+                if (!action.getFeature().equals("search")
+                        && !action.getFeature().equals("filter")) {
+                    ErrorMessage err = ErrorFactory.standardErr();
+                    output.addPOJO(err);
+                    break;
+                }
                 if (action.getFeature().equals("search")) {
-                    ArrayList<Movie> list = searchMovie(action.getStartsWith(), db);
-                    ErrorMessage err = ErrorFactory.createErr(null, list, db.getCurrUser());
+                    ArrayList<Movie> list = new ArrayList<>();
+                    for (Movie movie : db.getCurrMovies()) {
+                        if (movie.getName().indexOf(action.getStartsWith()) == 0)
+                            list.add(MovieFactory.createMovie(movie));
+                    }
+                    User errUser = UserFactory.createUser(db.getCurrUser());
+                    ErrorMessage err = ErrorFactory.createErr(null, list, errUser);
                     output.addPOJO(err);
                     break;
                 }
                 if (action.getFeature().equals("filter")) {
-//                    action.getFilters().getSort()
-                    ArrayList<Movie> list = searchMovie(action.getStartsWith(), db);
-                    ErrorMessage err = ErrorFactory.createErr(null, list, db.getCurrUser());
+                    ArrayList<Movie> list = new ArrayList<>();
+                    for (Movie movie : db.getCurrMovies()) {
+                        list.add(MovieFactory.createMovie(movie));
+                    }
+                    if (action.getFilters().getContains() != null) {
+                        // Filter by genre
+                        if (action.getFilters().getContains().getGenre() != null) {
+                            for (String genre : action.getFilters().getContains().getGenre()) {
+                                for (Movie movie : list) {
+                                    if (!movie.getGenres().contains(genre)) {
+                                        list.remove(movie);
+                                    }
+                                }
+                            }
+                        }
+                        // Filter by actor
+                        if (action.getFilters().getContains().getActors() != null) {
+                            for (String actor : action.getFilters().getContains().getActors()) {
+                                for (Movie movie : list) {
+                                    if (!movie.getActors().contains(actor)) {
+                                        list.remove(movie);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    list = filter(action.getFilters(), list);
+                    User user = UserFactory.createUser(db.getCurrUser());
+                    ErrorMessage err = ErrorFactory.createErr(null, list, user);
                     output.addPOJO(err);
-                    break;
-                }
-                if (action.getFeature().equals("sort")) {
-
-                    break;
                 }
             }
             default -> {
