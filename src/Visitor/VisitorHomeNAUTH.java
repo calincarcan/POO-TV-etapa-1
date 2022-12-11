@@ -9,20 +9,22 @@ import Factory.UserFactory;
 import Filters.CountryFilter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import iofiles.Action;
+
 import java.util.ArrayList;
 
-public class VisitorHomeNAUTH implements Visitor{
+public class VisitorHomeNAUTH implements Visitor {
     private User checkLogin(Action action, Database db) {
         String loginName = action.getCredentials().getName();
         String loginPassword = action.getCredentials().getPassword();
         for (User user : db.getUsers()) {
             if (user.getCredentials().getName().equals(loginName) &&
-                user.getCredentials().getPassword().equals(loginPassword)) {
+                    user.getCredentials().getPassword().equals(loginPassword)) {
                 return user;
             }
         }
         return null;
     }
+
     @Override
     public void visit(CurrentPage currentPage, Action action, Database db, ArrayNode output) {
         String actionType = action.getType();
@@ -77,7 +79,7 @@ public class VisitorHomeNAUTH implements Visitor{
                 }
             }
             default -> {
-                System.out.println("EROARE MASIVA IN VisitorHomeNAUTH!!!!!");
+                System.out.println("ERROR IN VisitorHomeNAUTH!!!!!");
             }
         }
     }

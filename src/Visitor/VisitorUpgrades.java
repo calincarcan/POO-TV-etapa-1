@@ -79,7 +79,7 @@ public class VisitorUpgrades implements Visitor {
                 user.getCredentials().setAccountType("premium");
             }
             default -> {
-                System.out.println("EROARE MASIVA IN VisitorUpgrades!!!!!");
+                System.out.println("ERROR IN VisitorUpgrades!!!!!");
             }
         }
     }

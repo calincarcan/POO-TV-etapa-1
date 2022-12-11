@@ -37,6 +37,7 @@ public class VisitorMovies implements Visitor {
                 .collect(Collectors.toList());
         return movies;
     }
+
     private ArrayList<Movie> filter(Filters filters, ArrayList<Movie> movies) {
         return new ArrayList<>(movies.stream()
                 .sorted((o1, o2) -> {
@@ -74,6 +75,7 @@ public class VisitorMovies implements Visitor {
                     return 0;
                 }).toList());
     }
+
     @Override
     public void visit(CurrentPage currentPage, Action action, Database db, ArrayNode output) {
         String actionType = action.getType();
@@ -107,7 +109,7 @@ public class VisitorMovies implements Visitor {
                         break;
                     }
                 }
-                if (pageName.equals("see details")){
+                if (pageName.equals("see details")) {
                     if (details == null) {
                         ErrorMessage err = ErrorFactory.standardErr();
                         output.addPOJO(err);
@@ -160,6 +162,8 @@ public class VisitorMovies implements Visitor {
                 }
                 if (action.getFeature().equals("filter")) {
                     ArrayList<Movie> list = new ArrayList<>();
+                    db.setCurrMovies(CountryFilter
+                            .moviePerms(db.getCurrUser().getCredentials().getCountry(), db));
                     for (Movie movie : db.getCurrMovies()) {
                         list.add(MovieFactory.createMovie(movie));
                     }
@@ -168,32 +172,16 @@ public class VisitorMovies implements Visitor {
                         if (action.getFilters().getContains().getGenre() != null) {
                             for (String genre : action.getFilters().getContains().getGenre()) {
                                 list.removeIf(movie -> !(movie.getGenres().contains(genre)));
-//                                for (Movie movie : list) {
-//                                    if (!movie.getGenres().contains(genre)) {
-//                                        list.remove(movie);
-//                                    }
-//                                }
                             }
                         }
                         // Filter by actor
                         if (action.getFilters().getContains().getActors() != null) {
                             for (String actor : action.getFilters().getContains().getActors()) {
                                 list.removeIf(movie -> !(movie.getActors().contains(actor)));
-//                                for (int i = 0; i < list.size(); i++) {
-//                                    Movie movie = list.get(i);
-//                                    if (!movie.getActors().contains(actor)) {
-//                                        list.remove(movie);
-//                                        i--;
-//                                    }
-//                                }
-//                                for (Movie movie : list) {
-//                                    if (!movie.getActors().contains(actor)) {
-//                                        list.remove(movie);
-//                                    }
-//                                }
                             }
                         }
                     }
+                    // Sort by duration and rating
                     if (action.getFilters().getSort() != null) {
                         if (action.getFilters().getSort().getDuration() != null) {
                             list = filter(action.getFilters(), list);
@@ -201,13 +189,18 @@ public class VisitorMovies implements Visitor {
                             list = filterNoDuration(action.getFilters(), list);
                         }
                     }
+                    ArrayList<Movie> errList = new ArrayList<>();
+                    for (Movie movie : list) {
+                        errList.add(MovieFactory.createMovie(movie));
+                    }
+                    db.setCurrMovies(list);
                     User user = UserFactory.createUser(db.getCurrUser());
-                    ErrorMessage err = ErrorFactory.createErr(null, list, user);
+                    ErrorMessage err = ErrorFactory.createErr(null, errList, user);
                     output.addPOJO(err);
                 }
             }
             default -> {
-                System.out.println("EROARE MASIVA IN VisitorMovies!!!!!");
+                System.out.println("ERROR IN VisitorMovies!!!!!");
             }
         }
     }

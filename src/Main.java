@@ -23,6 +23,7 @@ import java.io.IOException;
 public class Main {
     static int i = 1;
     public static void main(String[] args) throws IOException {
+        // var used in debug
         CountryFilter.aolo = 0;
         String inPath = args[0];
         String outPath = args[1];
@@ -30,15 +31,15 @@ public class Main {
         // Input data received
         Input inputData = objectMapper.readValue(new File(inPath), Input.class);
         ArrayNode output = objectMapper.createArrayNode();
-        // TODO: actual code starts here
+        // Actual code starts here
         CurrentPage currentPage = new CurrentPage();
-
+        // Visitors initialized
         currentPage.getVisitorColl().put("HomeNAUTH", new VisitorHomeNAUTH());
         currentPage.getVisitorColl().put("HomeAUTH", new VisitorHomeAUTH());
         currentPage.getVisitorColl().put("movies", new VisitorMovies());
         currentPage.getVisitorColl().put("seeDetails", new VisitorSeeDetails());
         currentPage.getVisitorColl().put("upgrades", new VisitorUpgrades());
-
+        // Database populated
         Database database = new Database();
         for (Userio user: inputData.getUsers()) {
             database.getUsers().add(UserFactory.createUser(user));
@@ -51,10 +52,10 @@ public class Main {
             Visitor visitor = currentPage.getVisitorColl().get(currentPage.getCurrentVisitor());
             currentPage.accept(visitor, action, database, output);
         }
-
         // Output data finished
         ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
         objectWriter.writeValue(new File(outPath), output);
-        objectWriter.writeValue(new File("checker/resources/out/out_" + i++ + ".json"), output);
+        // Output for debug
+        // objectWriter.writeValue(new File("checker/resources/out/out_" + i++ + ".json"), output);
     }
 }

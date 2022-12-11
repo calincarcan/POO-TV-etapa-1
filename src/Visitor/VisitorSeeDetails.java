@@ -78,8 +78,7 @@ public class VisitorSeeDetails implements Visitor {
                             aux--;
                             user.setNumFreePremiumMovies(aux);
                             user.getPurchasedMovies().add(movie);
-                        }
-                        else {
+                        } else {
                             if (user.getTokensCount() < MOVIE_COST) {
                                 ErrorMessage err = ErrorFactory.standardErr();
                                 output.addPOJO(err);
@@ -193,7 +192,7 @@ public class VisitorSeeDetails implements Visitor {
                 }
             }
             default -> {
-                System.out.println("EROARE MASIVA IN VisitorSeeDetails!!!!!");
+                System.out.println("ERROR IN VisitorSeeDetails!!!!!");
             }
         }
     }

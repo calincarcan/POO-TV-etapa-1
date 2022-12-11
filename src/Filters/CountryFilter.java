@@ -17,9 +17,5 @@ public class CountryFilter implements Filter{
             }
         }
         return list;
-//        return (ArrayList<Movie>) allMovies
-//                .stream()
-//                .filter(movie -> !movie.getCountriesBanned().contains(country))
-//                .collect(Collectors.toList());
     }
 }

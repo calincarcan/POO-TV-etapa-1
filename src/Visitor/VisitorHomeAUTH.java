@@ -9,7 +9,7 @@ import iofiles.Action;
 
 import java.util.ArrayList;
 
-public class VisitorHomeAUTH implements Visitor{
+public class VisitorHomeAUTH implements Visitor {
     public void visit(CurrentPage currentPage, Action action, Database db, ArrayNode output) {
         String actionType = action.getType();
         switch (actionType) {
@@ -47,7 +47,7 @@ public class VisitorHomeAUTH implements Visitor{
                 break;
             }
             default -> {
-                System.out.println("EROARE MASIVA IN VisitorHomeAUTH!!!!!");
+                System.out.println("ERROR IN VisitorHomeAUTH!!!!!");
             }
         }
     }
