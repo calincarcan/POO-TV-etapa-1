@@ -16,7 +16,8 @@
     "likedMovies" : [ ],
     "ratedMovies" : [ ]
   }
-}, {
+},
+  {
   "error" : null,
   "currentMoviesList" : [ {
     "name" : "Lord, Save Us from Your Followers",
@@ -164,7 +165,8 @@
     "likedMovies" : [ ],
     "ratedMovies" : [ ]
   }
-}, {
+},
+  {
   "error" : null,
   "currentMoviesList" : [ {
     "name" : "The Empty Hours",
@@ -192,7 +194,8 @@
     "likedMovies" : [ ],
     "ratedMovies" : [ ]
   }
-}, {
+}
+, {
   "error" : "Error",
   "currentMoviesList" : [ ],
   "currentUser" : null

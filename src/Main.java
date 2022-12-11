@@ -21,7 +21,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class Main {
-    static int i = 7;
+    static int i = 1;
     public static void main(String[] args) throws IOException {
         CountryFilter.aolo = 0;
         String inPath = args[0];

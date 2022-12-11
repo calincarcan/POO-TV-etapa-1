@@ -74,9 +74,20 @@ public class VisitorSeeDetails implements Visitor {
                     User user = db.getCurrUser();
                     if (user.getCredentials().getAccountType().equals("premium")) {
                         int aux = user.getNumFreePremiumMovies();
-                        aux--;
-                        user.setNumFreePremiumMovies(aux);
-                        user.getPurchasedMovies().add(movie);
+                        if (aux > 0) {
+                            aux--;
+                            user.setNumFreePremiumMovies(aux);
+                            user.getPurchasedMovies().add(movie);
+                        }
+                        else {
+                            if (user.getTokensCount() < MOVIE_COST) {
+                                ErrorMessage err = ErrorFactory.standardErr();
+                                output.addPOJO(err);
+                                break;
+                            }
+                            user.setTokensCount(user.getTokensCount() - MOVIE_COST);
+                            user.getPurchasedMovies().add(movie);
+                        }
                     } else {
                         if (user.getTokensCount() < MOVIE_COST) {
                             ErrorMessage err = ErrorFactory.standardErr();
@@ -180,7 +191,6 @@ public class VisitorSeeDetails implements Visitor {
                     output.addPOJO(err);
                     break;
                 }
-                // TODO: implement rate
             }
             default -> {
                 System.out.println("EROARE MASIVA IN VisitorSeeDetails!!!!!");

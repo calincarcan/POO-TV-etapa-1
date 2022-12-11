@@ -11,37 +11,68 @@ import Filters.CountryFilter;
 
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.stream.Collectors;
 
 public class VisitorMovies implements Visitor {
+    private ArrayList<Movie> filterNoDuration(Filters filters, ArrayList<Movie> movies) {
+        movies = (ArrayList<Movie>) movies.stream()
+                .sorted((o1, o2) -> {
+                    if (filters.getSort().getRating().equals("decreasing")) {
+                        double aux = o2.getRating() - o1.getRating();
+                        if (aux > 0)
+                            return 1;
+                        if (aux == 0)
+                            return 0;
+                        return -1;
+                    } else {
+                        double aux = o1.getRating() - o2.getRating();
+                        if (aux > 0)
+                            return 1;
+                        if (aux == 0)
+                            return 0;
+                        return -1;
+                    }
+                })
+                .collect(Collectors.toList());
+        return movies;
+    }
     private ArrayList<Movie> filter(Filters filters, ArrayList<Movie> movies) {
         return new ArrayList<>(movies.stream()
                 .sorted((o1, o2) -> {
                     if (filters.getSort() != null) {
-                        if (filters.getSort().getRating().equals("decreasing")) {
-                            return filterFunc(filters, o1, o2, o2.getRating(), o1.getRating());
+                        if (filters.getSort().getDuration().equals("decreasing")) {
+                            if (filters.getSort().getRating().equals("decreasing")) {
+                                if (o2.getDuration() - o1.getDuration() == 0)
+                                    return (int) (o2.getRating() - o1.getRating());
+                                else {
+                                    return o2.getDuration() - o1.getDuration();
+                                }
+                            } else {
+                                if (o2.getDuration() - o1.getDuration() == 0)
+                                    return (int) (o1.getRating() - o2.getRating());
+                                else {
+                                    return (o2.getDuration() - o1.getDuration());
+                                }
+                            }
                         } else {
-                            return filterFunc(filters, o1, o2, o1.getRating(), o2.getRating());
+                            if (filters.getSort().getRating().equals("decreasing")) {
+                                if (o1.getDuration() - o2.getDuration() == 0)
+                                    return (int) (o2.getRating() - o1.getRating());
+                                else {
+                                    return o1.getDuration() - o2.getDuration();
+                                }
+                            } else {
+                                if (o1.getDuration() - o2.getDuration() == 0)
+                                    return (int) (o1.getRating() - o2.getRating());
+                                else {
+                                    return (o1.getDuration() - o2.getDuration());
+                                }
+                            }
                         }
                     }
                     return 0;
                 }).toList());
-    }
-
-    private int filterFunc(Filters filters, Movie o1, Movie o2, double rating, double rating2) {
-        if (filters.getSort().getDuration().equals("decreasing")) {
-            if (o1.getRating() - o2.getRating() == 0)
-                return o2.getDuration() - o1.getDuration();
-            else {
-                return (int) (rating - rating2);
-            }
-        } else {
-            if (o1.getRating() - o2.getRating() == 0)
-                return o1.getDuration() - o2.getDuration();
-            else {
-                return (int) (rating - rating2);
-            }
-        }
     }
     @Override
     public void visit(CurrentPage currentPage, Action action, Database db, ArrayNode output) {
@@ -51,7 +82,8 @@ public class VisitorMovies implements Visitor {
             case "change page" -> {
                 if (!pageName.equals("home")
                         && !pageName.equals("see details")
-                        && !pageName.equals("logout")) {
+                        && !pageName.equals("logout")
+                        && !pageName.equals("movies")) {
                     ErrorMessage err = ErrorFactory.standardErr();
                     output.addPOJO(err);
                     break;
@@ -75,20 +107,37 @@ public class VisitorMovies implements Visitor {
                         break;
                     }
                 }
-                if (details == null) {
-                    ErrorMessage err = ErrorFactory.standardErr();
-                    output.addPOJO(err);
-                    currentPage.resetMovies();
+                if (pageName.equals("see details")){
+                    if (details == null) {
+                        ErrorMessage err = ErrorFactory.standardErr();
+                        output.addPOJO(err);
+                        currentPage.resetMovies();
+                        break;
+                    } else {
+                        currentPage.resetSeeDetails();
+                        ArrayList<Movie> errMovie = new ArrayList<>();
+                        errMovie.add(MovieFactory.createMovie(details));
+                        User user = UserFactory.createUser(db.getCurrUser());
+                        db.setCurrMovies(new ArrayList<>());
+                        db.getCurrMovies().add(details);
+                        ErrorMessage err = ErrorFactory.createErr(null, errMovie, user);
+                        output.addPOJO(err);
+                        break;
+                    }
                 }
-                else {
-                    currentPage.resetSeeDetails();
-                    ArrayList<Movie> errMovie = new ArrayList<>();
-                    errMovie.add(MovieFactory.createMovie(details));
+                if (pageName.equals("movies")) {
+                    db.setCurrMovies(CountryFilter
+                            .moviePerms(db.getCurrUser().getCredentials().getCountry(), db));
+                    currentPage.resetMovies();
                     User user = UserFactory.createUser(db.getCurrUser());
-                    db.setCurrMovies(new ArrayList<>());
-                    db.getCurrMovies().add(details);
-                    ErrorMessage err = ErrorFactory.createErr(null, errMovie, user);
+                    ArrayList<Movie> list = new ArrayList<>();
+                    for (Movie movie : db.getCurrMovies()) {
+                        list.add(MovieFactory.createMovie(movie));
+                    }
+                    ErrorMessage err = ErrorFactory
+                            .createErr(null, list, user);
                     output.addPOJO(err);
+                    break;
                 }
             }
             case "on page" -> {
@@ -118,25 +167,40 @@ public class VisitorMovies implements Visitor {
                         // Filter by genre
                         if (action.getFilters().getContains().getGenre() != null) {
                             for (String genre : action.getFilters().getContains().getGenre()) {
-                                for (Movie movie : list) {
-                                    if (!movie.getGenres().contains(genre)) {
-                                        list.remove(movie);
-                                    }
-                                }
+                                list.removeIf(movie -> !(movie.getGenres().contains(genre)));
+//                                for (Movie movie : list) {
+//                                    if (!movie.getGenres().contains(genre)) {
+//                                        list.remove(movie);
+//                                    }
+//                                }
                             }
                         }
                         // Filter by actor
                         if (action.getFilters().getContains().getActors() != null) {
                             for (String actor : action.getFilters().getContains().getActors()) {
-                                for (Movie movie : list) {
-                                    if (!movie.getActors().contains(actor)) {
-                                        list.remove(movie);
-                                    }
-                                }
+                                list.removeIf(movie -> !(movie.getActors().contains(actor)));
+//                                for (int i = 0; i < list.size(); i++) {
+//                                    Movie movie = list.get(i);
+//                                    if (!movie.getActors().contains(actor)) {
+//                                        list.remove(movie);
+//                                        i--;
+//                                    }
+//                                }
+//                                for (Movie movie : list) {
+//                                    if (!movie.getActors().contains(actor)) {
+//                                        list.remove(movie);
+//                                    }
+//                                }
                             }
                         }
                     }
-                    list = filter(action.getFilters(), list);
+                    if (action.getFilters().getSort() != null) {
+                        if (action.getFilters().getSort().getDuration() != null) {
+                            list = filter(action.getFilters(), list);
+                        } else {
+                            list = filterNoDuration(action.getFilters(), list);
+                        }
+                    }
                     User user = UserFactory.createUser(db.getCurrUser());
                     ErrorMessage err = ErrorFactory.createErr(null, list, user);
                     output.addPOJO(err);
