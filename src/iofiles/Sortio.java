@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class Sortio {
-    String rating;
-    String duration;
+public final class Sortio {
+    private String rating;
+    private String duration;
 }

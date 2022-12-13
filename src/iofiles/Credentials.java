@@ -5,10 +5,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Credentials {
-    String name;
-    String password;
-    String accountType;
-    String country;
-    String balance;
+public final class Credentials {
+    private String name;
+    private String password;
+    private String accountType;
+    private String country;
+    private String balance;
 }

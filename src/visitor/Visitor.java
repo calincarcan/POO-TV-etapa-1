@@ -1,7 +1,7 @@
-package Visitor;
+package visitor;
 
-import Data.CurrentPage;
-import Data.Database;
+import data.CurrentPage;
+import data.Database;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import iofiles.Action;
 

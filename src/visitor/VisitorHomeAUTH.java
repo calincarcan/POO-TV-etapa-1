@@ -1,16 +1,29 @@
-package Visitor;
+package visitor;
 
-import Data.*;
-import Factory.ErrorFactory;
-import Factory.MovieFactory;
-import Factory.UserFactory;
+import data.CurrentPage;
+import data.Movie;
+import data.ErrorMessage;
+import data.User;
+import data.Database;
+import factory.ErrorFactory;
+import factory.MovieFactory;
+import factory.UserFactory;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import iofiles.Action;
 
 import java.util.ArrayList;
 
-public class VisitorHomeAUTH implements Visitor {
-    public void visit(CurrentPage currentPage, Action action, Database db, ArrayNode output) {
+public final class VisitorHomeAUTH implements Visitor {
+    /**
+     * Visitor executes the on page and change page commands specific
+     * to the authenticated home page
+     * @param currentPage
+     * @param action
+     * @param db
+     * @param output
+     */
+    public void visit(final CurrentPage currentPage, final Action action,
+                      final Database db, final ArrayNode output) {
         String actionType = action.getType();
         switch (actionType) {
             case "change page" -> {
@@ -44,7 +57,6 @@ public class VisitorHomeAUTH implements Visitor {
             case "on page" -> {
                 ErrorMessage err = ErrorFactory.standardErr();
                 output.addPOJO(err);
-                break;
             }
             default -> {
                 System.out.println("ERROR IN VisitorHomeAUTH!!!!!");

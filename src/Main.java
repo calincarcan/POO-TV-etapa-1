@@ -1,14 +1,15 @@
-import Data.*;
-import Filters.CountryFilter;
-import Visitor.VisitorHomeNAUTH;
-import Visitor.VisitorSeeDetails;
-import Visitor.VisitorHomeAUTH;
-import Visitor.VisitorMovies;
-import Visitor.VisitorUpgrades;
+import data.CurrentPage;
+import data.Database;
+import filters.CountryFilter;
+import visitor.VisitorHomeNAUTH;
+import visitor.VisitorSeeDetails;
+import visitor.VisitorHomeAUTH;
+import visitor.VisitorMovies;
+import visitor.VisitorUpgrades;
 
-import Factory.MovieFactory;
-import Factory.UserFactory;
-import Visitor.Visitor;
+import factory.MovieFactory;
+import factory.UserFactory;
+import visitor.Visitor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -20,11 +21,12 @@ import iofiles.Userio;
 import java.io.File;
 import java.io.IOException;
 
-public class Main {
-    static int i = 1;
+public final class Main {
+    // var used in debug
+    // static int outputNr = 1;
     public static void main(String[] args) throws IOException {
         // var used in debug
-        CountryFilter.aolo = 0;
+        CountryFilter.debugVar = 0;
         String inPath = args[0];
         String outPath = args[1];
         ObjectMapper objectMapper = new ObjectMapper();
@@ -56,6 +58,6 @@ public class Main {
         ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
         objectWriter.writeValue(new File(outPath), output);
         // Output for debug
-        // objectWriter.writeValue(new File("checker/resources/out/out_" + i++ + ".json"), output);
+        // objectWriter.writeValue(new File("checker/resources/out/out_" + outputNr++ + ".json"), output);
     }
 }

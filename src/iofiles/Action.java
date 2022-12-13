@@ -5,14 +5,14 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Action {
-    String type;
-    String page;
-    String movie;
-    String feature;
-    Credentials credentials;
-    String startsWith;
-    String count;
-    int rate;
-    Filters filters;
+public final class Action {
+    private String type;
+    private String page;
+    private String movie;
+    private String feature;
+    private Credentials credentials;
+    private String startsWith;
+    private String count;
+    private int rate;
+    private Filters filters;
 }

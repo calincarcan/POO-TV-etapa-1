@@ -1,13 +1,10 @@
 package iofiles;
 
-public class Userio {
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public final class Userio {
     private Credentials credentials;
-
-    public Credentials getCredentials() {
-        return credentials;
-    }
-
-    public void setCredentials(Credentials credentials) {
-        this.credentials = credentials;
-    }
 }

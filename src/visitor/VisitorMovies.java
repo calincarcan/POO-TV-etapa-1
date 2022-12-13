@@ -1,36 +1,42 @@
-package Visitor;
+package visitor;
 
-import Data.*;
-import Factory.ErrorFactory;
-import Factory.MovieFactory;
-import Factory.UserFactory;
+import data.Database;
+import data.User;
+import data.Movie;
+import data.CurrentPage;
+import data.ErrorMessage;
+import factory.ErrorFactory;
+import factory.MovieFactory;
+import factory.UserFactory;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import iofiles.Action;
 import iofiles.Filters;
-import Filters.CountryFilter;
+import filters.CountryFilter;
 
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.stream.Collectors;
 
-public class VisitorMovies implements Visitor {
-    private ArrayList<Movie> filterNoDuration(Filters filters, ArrayList<Movie> movies) {
+public final class VisitorMovies implements Visitor {
+    private ArrayList<Movie> filterNoDuration(final Filters filters, ArrayList<Movie> movies) {
         movies = (ArrayList<Movie>) movies.stream()
                 .sorted((o1, o2) -> {
                     if (filters.getSort().getRating().equals("decreasing")) {
                         double aux = o2.getRating() - o1.getRating();
-                        if (aux > 0)
+                        if (aux > 0) {
                             return 1;
-                        if (aux == 0)
+                        }
+                        if (aux == 0) {
                             return 0;
+                        }
                         return -1;
                     } else {
                         double aux = o1.getRating() - o2.getRating();
-                        if (aux > 0)
+                        if (aux > 0) {
                             return 1;
-                        if (aux == 0)
+                        }
+                        if (aux == 0) {
                             return 0;
+                        }
                         return -1;
                     }
                 })
@@ -38,34 +44,38 @@ public class VisitorMovies implements Visitor {
         return movies;
     }
 
-    private ArrayList<Movie> filter(Filters filters, ArrayList<Movie> movies) {
+    private ArrayList<Movie> filter(final Filters filters, final ArrayList<Movie> movies) {
         return new ArrayList<>(movies.stream()
                 .sorted((o1, o2) -> {
                     if (filters.getSort() != null) {
                         if (filters.getSort().getDuration().equals("decreasing")) {
                             if (filters.getSort().getRating().equals("decreasing")) {
-                                if (o2.getDuration() - o1.getDuration() == 0)
+                                if (o2.getDuration() - o1.getDuration() == 0) {
                                     return (int) (o2.getRating() - o1.getRating());
+                                }
                                 else {
                                     return o2.getDuration() - o1.getDuration();
                                 }
                             } else {
-                                if (o2.getDuration() - o1.getDuration() == 0)
+                                if (o2.getDuration() - o1.getDuration() == 0) {
                                     return (int) (o1.getRating() - o2.getRating());
+                                }
                                 else {
                                     return (o2.getDuration() - o1.getDuration());
                                 }
                             }
                         } else {
                             if (filters.getSort().getRating().equals("decreasing")) {
-                                if (o1.getDuration() - o2.getDuration() == 0)
+                                if (o1.getDuration() - o2.getDuration() == 0) {
                                     return (int) (o2.getRating() - o1.getRating());
+                                }
                                 else {
                                     return o1.getDuration() - o2.getDuration();
                                 }
                             } else {
-                                if (o1.getDuration() - o2.getDuration() == 0)
+                                if (o1.getDuration() - o2.getDuration() == 0) {
                                     return (int) (o1.getRating() - o2.getRating());
+                                }
                                 else {
                                     return (o1.getDuration() - o2.getDuration());
                                 }
@@ -76,8 +86,16 @@ public class VisitorMovies implements Visitor {
                 }).toList());
     }
 
-    @Override
-    public void visit(CurrentPage currentPage, Action action, Database db, ArrayNode output) {
+    /**
+     * Visitor executes the on page and change page commands specific
+     * to the movies page
+     * @param currentPage
+     * @param action
+     * @param db
+     * @param output
+     */
+    public void visit(final CurrentPage currentPage, final Action action,
+                      final Database db, final ArrayNode output) {
         String actionType = action.getType();
         String pageName = action.getPage();
         switch (actionType) {

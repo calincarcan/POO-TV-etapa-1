@@ -1,43 +1,54 @@
-package Factory;
+package factory;
 
-import Data.Movie;
-import Data.User;
+import data.Movie;
+import data.User;
 import iofiles.Credentials;
 import iofiles.Userio;
 
 import java.util.ArrayList;
 
-public class UserFactory {
-    public static User createUser(User user) {
-        User newUser = new User();
-        newUser.setCredentials(CredentialsFactory.createCred(user.getCredentials()));
-        newUser.setTokensCount(user.getTokensCount());
-        newUser.setNumFreePremiumMovies(user.getNumFreePremiumMovies());
+public final class UserFactory {
+    /**
+     * Method creates a copy of a User object given a User object
+     * @param user
+     * @return copyUser
+     */
+    public static User createUser(final User user) {
+        User copyUser = new User();
+        copyUser.setCredentials(CredentialsFactory.createCred(user.getCredentials()));
+        copyUser.setTokensCount(user.getTokensCount());
+        copyUser.setNumFreePremiumMovies(user.getNumFreePremiumMovies());
         ArrayList<Movie> auxList = new ArrayList<>();
         for (Movie movie : user.getPurchasedMovies()) {
             auxList.add(MovieFactory.createMovie(movie));
         }
-        newUser.setPurchasedMovies(auxList);
+        copyUser.setPurchasedMovies(auxList);
         auxList = new ArrayList<>();
         for (Movie movie : user.getWatchedMovies()) {
             auxList.add(MovieFactory.createMovie(movie));
         }
-        newUser.setWatchedMovies(auxList);
+        copyUser.setWatchedMovies(auxList);
         auxList = new ArrayList<>();
         for (Movie movie : user.getLikedMovies()) {
             auxList.add(MovieFactory.createMovie(movie));
         }
-        newUser.setLikedMovies(auxList);
+        copyUser.setLikedMovies(auxList);
         auxList = new ArrayList<>();
         for (Movie movie : user.getRatedMovies()) {
             auxList.add(MovieFactory.createMovie(movie));
         }
-        newUser.setRatedMovies(auxList);
-        return newUser;
+        copyUser.setRatedMovies(auxList);
+        return copyUser;
     }
-    public static User createUser(Userio user) {
+
+    /**
+     * Method creates a User object given a Userio object
+     * @param userio
+     * @return newUser
+     */
+    public static User createUser(final Userio userio) {
         User newUser = new User();
-        newUser.setCredentials(user.getCredentials());
+        newUser.setCredentials(userio.getCredentials());
         newUser.setTokensCount(0);
         newUser.setNumFreePremiumMovies(15);
         newUser.setPurchasedMovies(new ArrayList<>());
@@ -46,7 +57,13 @@ public class UserFactory {
         newUser.setRatedMovies(new ArrayList<>());
         return newUser;
     }
-    public static User createUser(Credentials credentials) {
+
+    /**
+     * Method creates a User object with default values for given credentials
+     * @param credentials
+     * @return newUser
+     */
+    public static User createUser(final Credentials credentials) {
         User newUser = new User();
         newUser.setCredentials(credentials);
         newUser.setTokensCount(0);
@@ -56,5 +73,8 @@ public class UserFactory {
         newUser.setLikedMovies(new ArrayList<>());
         newUser.setRatedMovies(new ArrayList<>());
         return newUser;
+    }
+    private UserFactory() {
+
     }
 }

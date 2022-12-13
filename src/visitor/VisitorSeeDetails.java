@@ -1,17 +1,30 @@
-package Visitor;
+package visitor;
 
-import Data.*;
-import Factory.ErrorFactory;
-import Factory.MovieFactory;
-import Factory.UserFactory;
-import Filters.CountryFilter;
+import data.ErrorMessage;
+import data.User;
+import data.Movie;
+import data.CurrentPage;
+import data.Database;
+import factory.ErrorFactory;
+import factory.MovieFactory;
+import factory.UserFactory;
+import filters.CountryFilter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import iofiles.Action;
 
 import java.util.ArrayList;
 
-public class VisitorSeeDetails implements Visitor {
-    public void visit(CurrentPage currentPage, Action action, Database db, ArrayNode output) {
+public final class VisitorSeeDetails implements Visitor {
+    /**
+     * Visitor executes the on page and change page commands specific
+     * to the see details page
+     * @param currentPage
+     * @param action
+     * @param db
+     * @param output
+     */
+    public void visit(final CurrentPage currentPage, final Action action,
+                      final Database db, final ArrayNode output) {
         String actionType = action.getType();
         switch (actionType) {
             case "change page" -> {

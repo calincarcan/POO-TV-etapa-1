@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Filters {
-    Sortio sort;
-    Containsio contains;
+public final class Filters {
+    private Sortio sort;
+    private Containsio contains;
 }

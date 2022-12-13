@@ -6,8 +6,8 @@ import lombok.Setter;
 import java.util.ArrayList;
 @Getter
 @Setter
-public class Input {
-    ArrayList<Userio> users;
-    ArrayList<Movieio> movies;
-    ArrayList<Action> actions;
+public final class Input {
+    private ArrayList<Userio> users;
+    private ArrayList<Movieio> movies;
+    private ArrayList<Action> actions;
 }
