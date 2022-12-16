@@ -1,6 +1,5 @@
 import data.CurrentPage;
 import data.Database;
-import filters.CountryFilter;
 import visitor.VisitorHomeNAUTH;
 import visitor.VisitorSeeDetails;
 import visitor.VisitorHomeAUTH;
@@ -22,11 +21,7 @@ import java.io.File;
 import java.io.IOException;
 
 public final class Main {
-    // var used in debug
-    // static int outputNr = 1;
     public static void main(String[] args) throws IOException {
-        // var used in debug
-        CountryFilter.debugVar = 0;
         String inPath = args[0];
         String outPath = args[1];
         ObjectMapper objectMapper = new ObjectMapper();
@@ -57,7 +52,5 @@ public final class Main {
         // Output data finished
         ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
         objectWriter.writeValue(new File(outPath), output);
-        // Output for debug
-        // objectWriter.writeValue(new File("checker/resources/out/out_" + outputNr++ + ".json"), output);
     }
 }

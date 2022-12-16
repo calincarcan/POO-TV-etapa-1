@@ -59,7 +59,7 @@ public final class VisitorHomeAUTH implements Visitor {
                 output.addPOJO(err);
             }
             default -> {
-                System.out.println("ERROR IN VisitorHomeAUTH!!!!!");
+
             }
         }
     }

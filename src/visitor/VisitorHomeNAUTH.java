@@ -94,7 +94,7 @@ public final class VisitorHomeNAUTH implements Visitor {
                 }
             }
             default -> {
-                System.out.println("ERROR IN VisitorHomeNAUTH!!!!!");
+
             }
         }
     }

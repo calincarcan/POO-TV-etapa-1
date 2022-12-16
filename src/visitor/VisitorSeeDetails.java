@@ -205,7 +205,7 @@ public final class VisitorSeeDetails implements Visitor {
                 }
             }
             default -> {
-                System.out.println("ERROR IN VisitorSeeDetails!!!!!");
+
             }
         }
     }

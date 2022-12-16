@@ -218,7 +218,7 @@ public final class VisitorMovies implements Visitor {
                 }
             }
             default -> {
-                System.out.println("ERROR IN VisitorMovies!!!!!");
+
             }
         }
     }

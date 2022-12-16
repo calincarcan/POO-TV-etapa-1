@@ -92,7 +92,7 @@ public final class VisitorUpgrades implements Visitor {
                 user.getCredentials().setAccountType("premium");
             }
             default -> {
-                System.out.println("ERROR IN VisitorUpgrades!!!!!");
+
             }
         }
     }

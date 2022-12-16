@@ -1,13 +1,14 @@
 Starting audit...
 [ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\checker\CheckStyleConstants.java:3:1: Utility classes should not have a public or default constructor. [HideUtilityClassConstructor]
+[ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\data\ErrorMessage.java:2:8: Unused import - com.fasterxml.jackson.annotation.JsonIgnoreProperties. [UnusedImports]
+[ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\factory\ErrorFactory.java:14:5: Missing a Javadoc comment. [MissingJavadocMethod]
+[ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\factory\ErrorFactory.java:15:9: 'if' is not followed by whitespace. [WhitespaceAfter]
 [ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\factory\UserFactory.java:53:41: '15' is a magic number. [MagicNumber]
 [ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\factory\UserFactory.java:70:41: '15' is a magic number. [MagicNumber]
-[ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\filters\CountryFilter.java:9:23: Variable 'debugVar' must be private and have accessor methods. [VisibilityModifier]
 [ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\iofiles\Userio.java:1: File does not end with a newline. [NewlineAtEndOfFile]
-[ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\Main.java:24:1: Utility classes should not have a public or default constructor. [HideUtilityClassConstructor]
-[ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\Main.java:27:5: Missing a Javadoc comment. [MissingJavadocMethod]
-[ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\Main.java:27:29: Parameter args should be final. [FinalParameters]
-[ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\Main.java:61: Line is longer than 100 characters (found 106). [LineLength]
+[ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\Main.java:23:1: Utility classes should not have a public or default constructor. [HideUtilityClassConstructor]
+[ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\Main.java:24:5: Missing a Javadoc comment. [MissingJavadocMethod]
+[ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\Main.java:24:29: Parameter args should be final. [FinalParameters]
 [ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\Test.java:1: File does not end with a newline. [NewlineAtEndOfFile]
 [ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\Test.java:9:28: Using the '.*' form of import should be avoided - java.util.concurrent.*. [AvoidStarImport]
 [ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\visitor\Visitor.java:9:5: Missing a Javadoc comment. [MissingJavadocMethod]
@@ -23,4 +24,4 @@ Starting audit...
 [ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\visitor\VisitorSeeDetails.java:70:27: Name 'MOVIE_COST' must match pattern '^[a-z][a-zA-Z0-9]*$'. [LocalFinalVariableName]
 [ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\visitor\VisitorUpgrades.java:63:27: Name 'PREMIUM_COST' must match pattern '^[a-z][a-zA-Z0-9]*$'. [LocalFinalVariableName]
 Audit done.
-Checkstyle ends with 23 errors.
+Checkstyle ends with 24 errors.

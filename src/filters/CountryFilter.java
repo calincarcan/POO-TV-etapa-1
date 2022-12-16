@@ -5,9 +5,7 @@ import data.Movie;
 
 import java.util.ArrayList;
 
-public final class CountryFilter implements Filter {
-    public static int debugVar = 0;
-
+public final class CountryFilter {
     /**
      * Method parses the whole movie database and returns a list containing all the movies that
      * can be viewed by a user from a given country
