@@ -1,5 +1,5 @@
 # Carcan Calin 324CD - POO TV
-
+<div><img src="https://ocw.cs.pub.ro/courses/lib/exe/fetch.php?hash=2597cd&media=https%3A%2F%2Fi.imgur.com%2FS1ROjQr.gif" width="300px"></div>
 Pentru a realiza o implementare cat mai usor de modificat am inceput prin a gandi
 clasele si modul in care vor interactiona intre ele. Am inceput prin a defini clase de input
 a caror treaba a fost sa poata colecta date dintr-un fisier json. Acele date au fost adaugate
@@ -17,6 +17,7 @@ de pagina pe care ne aflam, CurrentPage apela vizitatorul specific care mai apoi
 comenzile de tip change page si on page. Stiind care sunt actiunile permise pe
 fiecare pagina am facut un switch pe baza tipului actiunii si apoi mai multe blocuri specifice
 paginii pe care dorim sa ne mutam sau actiunii pe care dorim sa o executam.
+
 
 Actiunile de change page depind strict de pagina pe care ne aflam, de exemplu cand ne aflam pe
 pagina de home neautentificat, actiunile sunt executate de clasa VisitorHomeNAUTH unde
