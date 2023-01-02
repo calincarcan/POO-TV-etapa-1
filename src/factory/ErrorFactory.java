@@ -6,11 +6,11 @@ import data.User;
 
 import java.util.ArrayList;
 public final class ErrorFactory {
+    private static ErrorMessage instance = null;
     /**
      * Method creates and returns a singleton standard error message.
      * @return returns a standard error message
      */
-    private static ErrorMessage instance = null;
     public static ErrorMessage standardErr() {
         if(instance == null) {
             instance = new ErrorMessage();

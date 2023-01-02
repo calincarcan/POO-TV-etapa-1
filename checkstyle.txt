@@ -1,14 +1,23 @@
 Starting audit...
 [ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\checker\CheckStyleConstants.java:3:1: Utility classes should not have a public or default constructor. [HideUtilityClassConstructor]
 [ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\data\ErrorMessage.java:2:8: Unused import - com.fasterxml.jackson.annotation.JsonIgnoreProperties. [UnusedImports]
-[ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\factory\ErrorFactory.java:14:5: Missing a Javadoc comment. [MissingJavadocMethod]
 [ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\factory\ErrorFactory.java:15:9: 'if' is not followed by whitespace. [WhitespaceAfter]
 [ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\factory\UserFactory.java:53:41: '15' is a magic number. [MagicNumber]
 [ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\factory\UserFactory.java:70:41: '15' is a magic number. [MagicNumber]
+[ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\factory\VisitorFactory.java:2:15: Using the '.*' form of import should be avoided - visitor.*. [AvoidStarImport]
+[ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\factory\VisitorFactory.java:5:5: Missing a Javadoc comment. [MissingJavadocMethod]
+[ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\factory\VisitorFactory.java:5:41: Parameter type should be final. [FinalParameters]
+[ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\factory\VisitorFactory.java:6:5: '{' at column 5 should be on the previous line. [LeftCurly]
+[ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\factory\VisitorFactory.java:7:9: 'if' construct must use '{}'s. [NeedBraces]
 [ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\iofiles\Userio.java:1: File does not end with a newline. [NewlineAtEndOfFile]
-[ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\Main.java:23:1: Utility classes should not have a public or default constructor. [HideUtilityClassConstructor]
-[ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\Main.java:24:5: Missing a Javadoc comment. [MissingJavadocMethod]
-[ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\Main.java:24:29: Parameter args should be final. [FinalParameters]
+[ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\Main.java:4:8: Unused import - visitor.VisitorHomeNAUTH. [UnusedImports]
+[ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\Main.java:5:8: Unused import - visitor.VisitorSeeDetails. [UnusedImports]
+[ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\Main.java:6:8: Unused import - visitor.VisitorHomeAUTH. [UnusedImports]
+[ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\Main.java:7:8: Unused import - visitor.VisitorMovies. [UnusedImports]
+[ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\Main.java:8:8: Unused import - visitor.VisitorUpgrades. [UnusedImports]
+[ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\Main.java:24:1: Utility classes should not have a public or default constructor. [HideUtilityClassConstructor]
+[ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\Main.java:25:5: Missing a Javadoc comment. [MissingJavadocMethod]
+[ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\Main.java:25:29: Parameter args should be final. [FinalParameters]
 [ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\Test.java:1: File does not end with a newline. [NewlineAtEndOfFile]
 [ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\Test.java:9:28: Using the '.*' form of import should be avoided - java.util.concurrent.*. [AvoidStarImport]
 [ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\visitor\Visitor.java:9:5: Missing a Javadoc comment. [MissingJavadocMethod]
@@ -24,4 +33,4 @@ Starting audit...
 [ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\visitor\VisitorSeeDetails.java:70:27: Name 'MOVIE_COST' must match pattern '^[a-z][a-zA-Z0-9]*$'. [LocalFinalVariableName]
 [ERROR] C:\Users\calin\Desktop\Facultate\Anul 2\poo\tema2\.\src\visitor\VisitorUpgrades.java:63:27: Name 'PREMIUM_COST' must match pattern '^[a-z][a-zA-Z0-9]*$'. [LocalFinalVariableName]
 Audit done.
-Checkstyle ends with 24 errors.
+Checkstyle ends with 33 errors.

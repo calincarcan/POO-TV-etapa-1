@@ -1,5 +1,6 @@
 import data.CurrentPage;
 import data.Database;
+import factory.VisitorFactory;
 import visitor.VisitorHomeNAUTH;
 import visitor.VisitorSeeDetails;
 import visitor.VisitorHomeAUTH;
@@ -31,11 +32,11 @@ public final class Main {
         // Actual code starts here
         CurrentPage currentPage = new CurrentPage();
         // Visitors initialized
-        currentPage.getVisitorColl().put("HomeNAUTH", new VisitorHomeNAUTH());
-        currentPage.getVisitorColl().put("HomeAUTH", new VisitorHomeAUTH());
-        currentPage.getVisitorColl().put("movies", new VisitorMovies());
-        currentPage.getVisitorColl().put("seeDetails", new VisitorSeeDetails());
-        currentPage.getVisitorColl().put("upgrades", new VisitorUpgrades());
+        currentPage.getVisitorColl().put("HomeNAUTH", VisitorFactory.createVisitor("HomeNAUTH"));
+        currentPage.getVisitorColl().put("HomeAUTH", VisitorFactory.createVisitor("HomeAUTH"));
+        currentPage.getVisitorColl().put("movies", VisitorFactory.createVisitor("movies"));
+        currentPage.getVisitorColl().put("seeDetails", VisitorFactory.createVisitor("seeDetails"));
+        currentPage.getVisitorColl().put("upgrades", VisitorFactory.createVisitor("upgrades"));
         // Database populated
         Database database = new Database();
         for (Userio user: inputData.getUsers()) {
